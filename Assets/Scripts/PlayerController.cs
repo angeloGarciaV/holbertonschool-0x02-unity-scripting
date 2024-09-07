@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public float boost = 1000f;
     private bool isMoving;
     private float originalSpeed;
-
+    private int score = 0;
     void Start()
     {
         originalSpeed = speed;
@@ -39,12 +39,21 @@ public class PlayerController : MonoBehaviour
         }
         if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) && isMoving == true)
         {
-             speed = boost;
+            speed = boost;
         }else
         {
             speed = originalSpeed;
         }
         
         isMoving = false;
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Pickup"))
+        {
+            Destroy(other.gameObject);
+        }
+        score++;
+        Debug.Log($"Score: {score}");
     }
 }
