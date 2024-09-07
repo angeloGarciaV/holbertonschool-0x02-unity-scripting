@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,8 +20,7 @@ public class PlayerController : MonoBehaviour
         originalSpeed = speed;
     }
     void Update()
-    {
-        
+    {        
         if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             isMoving = true;
@@ -49,6 +50,12 @@ public class PlayerController : MonoBehaviour
         }
         
         isMoving = false;
+
+        if (health == 0)
+        {
+            Debug.Log("Game Over!");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
     void OnTriggerEnter(Collider other)
     {
@@ -63,6 +70,11 @@ public class PlayerController : MonoBehaviour
         {
             health--;
             Debug.Log($"Health: {health}");
+        }
+        
+        if (other.CompareTag("Goal"))
+        {
+            Debug.Log("You win!");
         }
     }
 }
